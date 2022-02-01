@@ -1,0 +1,20 @@
+# IDEA
+.idea
+*.iml
+
+# SBT
+sbt.json
+target/
+project/**/target/
+.history
+.cache
+.lib/
+
+# JVM
+*.class
+*.log
+
+# Metals
+.metals/
+.bloop/
+project/metals.sbt
