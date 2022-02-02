@@ -2,7 +2,7 @@ import Dependencies._
 
 name := "zio-demo"
 ThisBuild / organization := "com.rallyhealth.personalization"
-ThisBuild / scalaVersion := "2.13.8"
+ThisBuild / scalaVersion := Scala_2_13
 
 // Avoid publishing the root aggregate project
 publish / skip := true
