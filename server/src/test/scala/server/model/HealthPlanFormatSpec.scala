@@ -5,7 +5,7 @@ import zio.json._
 import zio.test._
 
 object HealthPlanFormatSpec extends ZIOSpecDefault {
-  override val spec: ZSpec[TestEnvironment, Any] = suite("HealthPlan") {
+  override val spec: ZSpec[TestEnvironment, Any] = suite("JsonCodec[HealthPlan]") {
     test("bidirectional") {
       check(Generators.genHealthPlan) { hp =>
         val json = hp.toJsonPretty
