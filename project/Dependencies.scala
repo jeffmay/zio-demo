@@ -12,7 +12,7 @@ object Dependencies {
 
   private val zio = "dev.zio" %% "zio" % zioVersion
 
-  private val zioJson = "dev.zio" %% "zio-json" % "0.3.0-RC1"
+  private val zioJson = "dev.zio" %% "zio-json" % "0.3.0-RC1-1"
 
   private val zioHttp = "io.d11" %% "zhttp" % zioVersion
 

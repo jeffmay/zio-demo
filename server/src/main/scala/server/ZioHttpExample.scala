@@ -8,7 +8,7 @@ import zhttp.service.Server
 import zio.json._
 import zio.{ZEnv, ZIO, ZIOAppArgs, ZIOAppDefault}
 
-object ExampleZioApp extends ZIOAppDefault {
+object ZioHttpExample extends ZIOAppDefault {
 
   val routes = Http.collect[Request] {
     case Method.GET -> !! / "hello" => Response.text("Hello World!")

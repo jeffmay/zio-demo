@@ -11,7 +11,7 @@ object ExampleZioAppSuite extends ZIOSpecDefault {
   override val spec: ZSpec[TestEnvironment, Any] = suite("ExampleZioApp") {
     test("GET /hello") {
       for {
-        rsp <- ExampleZioApp.routes(Request(url = URL(URL.root.path / "hello")))
+        rsp <- ZioHttpExample.routes(Request(url = URL(URL.root.path / "hello")))
         body <- rsp.data.toByteBuf
       } yield {
         val bodyAsString = body.toString(Codec.UTF8.charSet)
