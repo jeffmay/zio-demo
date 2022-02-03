@@ -2,9 +2,11 @@ package com.rallyhealth.pzn.io
 package server.consumer
 
 import server.model.HealthPlan
+import server.service.{HealthPlanProcessing, HealthPlanService}
 
 import fs2.Chunk
 import zio.interop.catz._
+import zio.json._
 import zio.{Task, ZIO, ZLayer}
 
 case object HealthPlanConsumer extends Consumer[HealthPlanProcessing, Task, HealthPlan] {
@@ -13,15 +15,11 @@ case object HealthPlanConsumer extends Consumer[HealthPlanProcessing, Task, Heal
     stream: fs2.Stream[Task, Chunk[Byte]]
   ): HealthPlanProcessing => fs2.Stream[Task, HealthPlan] = { deps =>
     stream.evalMapChunk { bytes =>
-      HealthPlanExampleService.process(new String(bytes.toArray)).provide(ZLayer.succeed(deps))
+      for {
+        hpJson <- ZIO(new String(bytes.toArray))
+        hp <- ZIO.fromEither(hpJson.fromJson[HealthPlan]).mapError(new ConsumerParseError(_))
+        _ <- HealthPlanService.process(hp).provide(ZLayer.succeed(deps))
+      } yield hp
     }
   }
 }
-
-object HealthPlanExampleService {
-
-  def process(bodyAsString: String): ZIO[HealthPlanProcessing, Throwable, HealthPlan] =
-    ZIO.succeed(HealthPlan("1234", "example"))
-}
-
-class HealthPlanProcessing
