@@ -8,9 +8,17 @@ object Dependencies {
   private final val zioVersion = "2.0.0-RC1"
   private final val zioSchemaVersion = "0.2.0-RC1-1"
 
+  private val catsCore = "org.typelevel" %% "cats-core" % "2.7.0"
+
+  private val catsEffect = "org.typelevel" %% "cats-effect" % "3.3.4"
+
+  private val fs2Core = "co.fs2" %% "fs2-core" % "3.2.4"
+
   private val scalaReflect = "org.scala-lang" % "scala-reflect" % Scala_2_13 % "provided"
 
   private val zio = "dev.zio" %% "zio" % zioVersion
+
+  private val zioCats = "dev.zio" %% "zio-interop-cats" % "3.3.0-RC1"
 
   private val zioJson = "dev.zio" %% "zio-json" % "0.3.0-RC1-1"
 
@@ -29,6 +37,10 @@ object Dependencies {
   object Api {
 
     val deps: Seq[ModuleID] = Seq(
+      catsCore,
+      catsEffect,
+      fs2Core,
+    ) ++ Seq(
       // Test-only dependencies
       zioTest,
       zioTestMagnolia,
@@ -37,8 +49,9 @@ object Dependencies {
 
   object Zio {
 
-    val deps: Seq[ModuleID] = Seq(
+    val deps: Seq[ModuleID] = Api.deps ++ Seq(
       zio,
+      zioCats,
       zioSchema,
     ) ++ Seq(
       // Test-only dependencies
