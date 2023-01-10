@@ -1,11 +1,12 @@
 package com.rallyhealth.pzn.io
 package server.model
 
-import zio.ZIO
+import zio._
 import zio.test._
 
 object HealthPlanSchemaSpec extends ZIOSpecDefault {
-  override val spec: ZSpec[TestEnvironment, Any] = suite("Schema[HealthPlanV2]") {
+
+  override val spec: Spec[TestEnvironment & Scope, Any] = suite("Schema[HealthPlanV2]") {
     test("migrate to HealthPlan") {
       checkAll(Generators.genHealthPlanV2) { hpv2 =>
         val expected = HealthPlan(hpv2.id, hpv2.name)

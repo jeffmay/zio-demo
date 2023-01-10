@@ -1,21 +1,21 @@
 package com.rallyhealth.pzn.io
 package server
 
-import zio.{ZEnv, ZIO, ZIOAppArgs, ZIOAppDefault, ZLayer}
+import zio._
 
 /**
   * Example from https://di-in-scala.github.io/
   */
 object DIExample extends ZIOAppDefault {
 
-  val prepareAndDispatchNextTrain: ZIO[TrainShunter with TrainLoader with TrainDispatch, Nothing, Unit] = for {
+  val prepareAndDispatchNextTrain: URIO[TrainShunter & TrainLoader & TrainDispatch, Unit] = for {
     shunter <- ZIO.service[TrainShunter]
     loader <- ZIO.service[TrainLoader]
     dispatch <- ZIO.service[TrainDispatch]
     _ <- ZIO.log("prepared and dispatched next train!")
   } yield ()
 
-  override val run: ZIO[ZEnv with ZIOAppArgs, Any, Any] = prepareAndDispatchNextTrain.provide(
+  override val run: ZIO[ZIOAppArgs, Any, Any] = prepareAndDispatchNextTrain.provide(
     TrainCarCoupler.layer,
     TrainDispatch.layer,
     TrainShunter.layer,
